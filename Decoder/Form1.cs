@@ -64,6 +64,7 @@ namespace Decoder
             SearchCoincidences(alphabetEcrypted, alphabetRus);
             //вывод информации
             textBox_decryptedText.Text = new String(decryptedText);
+            textBox_Chastotiy.Text = "";
             alphabetEcrypted.ForEach(letter => 
                 textBox_Chastotiy.Text += String.Format("{0} = {1:0.0000}\r\n", letter.Symbol, letter.Chastota));
         }
