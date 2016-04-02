@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -78,7 +79,7 @@ namespace Decoder
                 //находим какое место в словаре занимает символ
                 int index = alphabetEcrypted.FindIndex(x => x.Symbol == ciphertext[i]);
                 //записываем русскую букву соответствующей позиции 
-                decryptedText[i] = index == -1 ? ciphertext[i] : alphabetRus[index].Symbol;
+                decryptedText[i] = (index == -1 || index > 32) ? ciphertext[i] : alphabetRus[index].Symbol;
             }
 
         }
@@ -103,7 +104,7 @@ namespace Decoder
                 new Letter ( 'г', 0.062 ),
                 new Letter ( 'д', 0.025 ),
                 new Letter ( 'е', 0.072 ),
-                //new Letter ( 'ё', 0.072 ),
+                new Letter ( 'ё', 0.072 ),
                 new Letter ( 'ж', 0.007 ),
                 new Letter ( 'з', 0.016 ),
                 new Letter ( 'и', 0.062 ),
@@ -134,6 +135,41 @@ namespace Decoder
 
             alphabet.Sort((l1, l2) => l2.Chastota.CompareTo(l1.Chastota));
             return alphabet;
+        }
+        private void LoadFile()
+        {
+            OpenFileDialog openDialog = new OpenFileDialog();
+            openDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            openDialog.Multiselect = false;
+            openDialog.ShowDialog();
+
+            if(!String.IsNullOrWhiteSpace(openDialog.FileName))
+                textBox_ciphertext.Text = File.ReadAllText(openDialog.FileName, Encoding.Default);
+        }
+
+        private void SaveFile(string text)
+        {
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            saveDialog.ShowDialog();
+
+            if (!String.IsNullOrWhiteSpace(saveDialog.FileName))
+                File.WriteAllText(saveDialog.FileName, text, Encoding.Default);
+        }
+        //загрузить Шифротекст
+        private void LoadFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoadFile();
+        }
+        //сохранить Шифротекст
+        private void SaveFileCiphertextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFile(textBox_ciphertext.Text);
+        }
+        //сохранить Расшифровку
+        private void SaveFileDecryptedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFile(textBox_decryptedText.Text);
         }
     }
 }
