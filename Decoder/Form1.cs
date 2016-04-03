@@ -49,7 +49,7 @@ namespace Decoder
                     alphabetEcrypted.Add(new Letter(ciphertext[i], 1));
             }
 
-            //если текст не состоит из английских символов и цифр больше чем на 90%, то ошибка
+            //если текст не состоит из английских символов и цифр больше чем на 70%, то ошибка
             if ((double)countNoValidateSymbol / ciphertext.Length > 0.3)
             {
                 MessageBox.Show("Текст должен состоять преимущественно из английских символов и цифр", "Error");
@@ -86,8 +86,7 @@ namespace Decoder
 
         private void Validation()
         {
-            string ciphertextStr = textBox_ciphertext.Text;
-            ciphertext = ciphertextStr
+            ciphertext = textBox_ciphertext.Text
                 .ToLower()
                 .ToCharArray();
 
@@ -98,39 +97,39 @@ namespace Decoder
         private List<Letter> CreateAlphabetRus()
         {
             List<Letter> alphabet = new List<Letter>() {
-                new Letter ( 'а', 0.062 ),
-                new Letter ( 'б', 0.062 ),
-                new Letter ( 'в', 0.048 ),
-                new Letter ( 'г', 0.062 ),
-                new Letter ( 'д', 0.025 ),
-                new Letter ( 'е', 0.072 ),
-                new Letter ( 'ё', 0.072 ),
-                new Letter ( 'ж', 0.007 ),
-                new Letter ( 'з', 0.016 ),
-                new Letter ( 'и', 0.062 ),
-                new Letter ( 'й', 0.010 ),
-                new Letter ( 'к', 0.028 ),
-                new Letter ( 'л', 0.035 ),
-                new Letter ( 'м', 0.026 ),
-                new Letter ( 'н', 0.053 ),
-                new Letter ( 'о', 0.09 ),
-                new Letter ( 'п', 0.023 ),
-                new Letter ( 'р', 0.04 ),
-                new Letter ( 'с', 0.045 ),
-                new Letter ( 'т', 0.053 ),
-                new Letter ( 'у', 0.021 ),
-                new Letter ( 'ф', 0.002 ),
-                new Letter ( 'х', 0.009 ),
-                new Letter ( 'ц', 0.004 ),
-                new Letter ( 'ч', 0.062 ),
-                new Letter ( 'ш', 0.006 ),
-                new Letter ( 'щ', 0.062 ),
-                new Letter ( 'ь', 0.014 ),
-                new Letter ( 'ы', 0.016 ),
-                new Letter ( 'ъ', 0.014 ),
-                new Letter ( 'э', 0.003 ),
-                new Letter ( 'ю', 0.006 ),
-                new Letter ( 'я', 0.018 ),
+                new Letter ( 'а', 0.062 ),//
+                new Letter ( 'б', 0.014 ),//
+                new Letter ( 'в', 0.038 ),//
+                new Letter ( 'г', 0.013 ),//
+                new Letter ( 'д', 0.025 ),//
+                new Letter ( 'е', 0.072 ),//
+                new Letter ( 'ё', 0.072 ),//
+                new Letter ( 'ж', 0.007 ),//
+                new Letter ( 'з', 0.016 ),//
+                new Letter ( 'и', 0.062 ),//
+                new Letter ( 'й', 0.010 ),//
+                new Letter ( 'к', 0.028 ),//
+                new Letter ( 'л', 0.035 ),//
+                new Letter ( 'м', 0.026 ),//
+                new Letter ( 'н', 0.053 ),//
+                new Letter ( 'о', 0.09 ),//
+                new Letter ( 'п', 0.023 ),//
+                new Letter ( 'р', 0.04 ),//
+                new Letter ( 'с', 0.045 ),//
+                new Letter ( 'т', 0.053 ),//
+                new Letter ( 'у', 0.021 ),//
+                new Letter ( 'ф', 0.002 ),//
+                new Letter ( 'х', 0.009 ),//
+                new Letter ( 'ц', 0.004 ),//
+                new Letter ( 'ч', 0.012 ),//
+                new Letter ( 'ш', 0.006 ),//
+                new Letter ( 'щ', 0.003 ),//
+                new Letter ( 'ь', 0.014 ),//
+                new Letter ( 'ы', 0.016 ),//
+                new Letter ( 'ъ', 0.014 ),//
+                new Letter ( 'э', 0.003 ),//
+                new Letter ( 'ю', 0.006 ),//
+                new Letter ( 'я', 0.018 ),//
             };
 
             alphabet.Sort((l1, l2) => l2.Chastota.CompareTo(l1.Chastota));
