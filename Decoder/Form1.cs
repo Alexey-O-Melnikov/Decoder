@@ -35,11 +35,13 @@ namespace Decoder
             for (int i = 0; i < ciphertext.Length; i++)
             {
                 //если буква не английская и не цифра, смотрим следующую
-                if ( (ciphertext[i] < 48 || ciphertext[i] > 57) && (ciphertext[i] < 65 || ciphertext[i] > 122))
+                if ( (ciphertext[i] < 48 || ciphertext[i] > 57) && (ciphertext[i] < 65 || ciphertext[i] > 122) && ciphertext[i] != 32)
                 {
                     countNoValidateSymbol++;
                     continue;
                 }
+                if (ciphertext[i] == 32)
+                    continue;
 
                 //если символ есть в словаре, увеличиваем его количество на 1
                 if (alphabetEcrypted.Exists(x => x.Symbol == ciphertext[i]))
@@ -57,7 +59,7 @@ namespace Decoder
             }
 
             //подсчет частоты
-            alphabetEcrypted.ForEach(x => x.Chastota = (double)x.CountInText / ciphertext.Length);
+            alphabetEcrypted.ForEach(x => x.Chastota = (double)x.CountInText / (ciphertext.Length - countNoValidateSymbol));
             //сортировка по частоте
             alphabetEcrypted.Sort((l1, l2) => l2.Chastota.CompareTo(l1.Chastota));
 
@@ -67,7 +69,7 @@ namespace Decoder
             textBox_decryptedText.Text = new String(decryptedText);
             textBox_Chastotiy.Text = "";
             alphabetEcrypted.ForEach(letter => 
-                textBox_Chastotiy.Text += String.Format("{0} = {1:0.0000}\r\n", letter.Symbol, letter.Chastota));
+                textBox_Chastotiy.Text += $"{letter.Symbol} = {letter.Chastota:0.0000}\r\n");
         }
 
         private void SearchCoincidences(List<Letter> alphabetEcrypted, List<Letter> alphabetRus)
@@ -79,7 +81,7 @@ namespace Decoder
                 //находим какое место в словаре занимает символ
                 int index = alphabetEcrypted.FindIndex(x => x.Symbol == ciphertext[i]);
                 //записываем русскую букву соответствующей позиции 
-                decryptedText[i] = (index == -1 || index > 32) ? ciphertext[i] : alphabetRus[index].Symbol;
+                decryptedText[i] = (index == -1 || index > alphabetRus.Count) ? ciphertext[i] : alphabetRus[index].Symbol;
             }
 
         }
@@ -103,7 +105,7 @@ namespace Decoder
                 new Letter ( 'г', 0.013 ),//
                 new Letter ( 'д', 0.025 ),//
                 new Letter ( 'е', 0.072 ),//
-                new Letter ( 'ё', 0.072 ),//
+                //new Letter ( 'ё', 0.072 ),//
                 new Letter ( 'ж', 0.007 ),//
                 new Letter ( 'з', 0.016 ),//
                 new Letter ( 'и', 0.062 ),//
